@@ -1,7 +1,6 @@
 ﻿namespace BookShop
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
@@ -18,33 +17,62 @@
             this.Price = price;
         }
 
-        public string Title 
+        public string Title
         {
             get { return this.title; }
-            set { this.title = value; } 
+            protected set
+            {
+                if (value.Length < 3)
+                {
+                    throw new ArgumentException("Title not valid!");
+                }
+
+                this.title = value;
+            }
         }
 
         public string Author
         {
             get { return this.author; }
-            set 
+            protected set
             {
-                string[] name = value.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
-                string secondName = name[1];
+                var name = value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-                if (Char.IsDigit(secondName[0]))
+                if (name.Length > 1 && Char.IsDigit(name[1][0]))
                 {
-                    throw new ArgumentException ("Author not valid!");
+                    throw new ArgumentException("Author not valid!");
                 }
 
-                this.author = value; 
+                this.author = value;
             }
         }
 
-        public decimal Price
+        public virtual decimal Price
         {
             get { return this.price; }
-            set { this.price = value; }
+            protected set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Price not valid!");
+                }
+
+                this.price = decimal.Parse(string.Format("{0:0.00}", value));
+            }
+        }
+
+        public override string ToString()
+        {
+            var output = new StringBuilder();
+
+            output.AppendLine($"Type: {this.GetType().Name}")
+                .AppendLine($"Title: {this.Title}")
+                .AppendLine($"Author: {this.Author}")
+                .AppendLine($"Price: {this.Price:f2}");
+
+            string result = output.ToString().TrimEnd();
+            return result;
+
         }
     }
 }

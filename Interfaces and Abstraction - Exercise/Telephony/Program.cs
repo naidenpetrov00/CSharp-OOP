@@ -47,6 +47,17 @@
                         Console.WriteLine(ae.Message);
                     }
                 }
+                else
+                {
+                    try
+                    {
+                        Console.WriteLine(stattionaryPhone.Call(phoneNumbers[i]) + smartPhone.Call(phoneNumbers[i]));
+                    }
+                    catch (ArgumentException ae)
+                    {
+                        Console.WriteLine(ae.Message);
+                    }
+                }
             }
         }
 

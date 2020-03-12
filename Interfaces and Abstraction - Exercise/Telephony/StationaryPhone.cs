@@ -18,6 +18,10 @@
                 {
                     throw new ArgumentException("Invalid number!");
                 }
+                else if (value.Length != 7)
+                {
+                    throw new ArgumentException("Invalid number!");
+                }
 
                 this.phoneNumber = value;
             }

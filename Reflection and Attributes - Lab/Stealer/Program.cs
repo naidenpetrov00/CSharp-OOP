@@ -2,10 +2,10 @@
 
 public class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        SpyTwo spy = new SpyTwo();
-        string result = spy.AnalyzeAcessModifiers("Hacker");
+        Spy spy = new Spy();
+        string result = spy.CollectGettersAndSetters("Hacker");
         Console.WriteLine(result);
     }
 }

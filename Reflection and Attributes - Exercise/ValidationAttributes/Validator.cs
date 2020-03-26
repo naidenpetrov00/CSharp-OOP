@@ -1,36 +1,30 @@
 ﻿namespace ValidationAttributes
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Reflection;
 
     public static class Validator
     {
         public static bool IsValid(object obj)
         {
-            var classType = typeof(Person);
+            var classType = obj.GetType();
+            var properties = classType.GetProperties();
 
-            //Required Attributes Validation!
-            var attributeType = typeof(MyRequiredAttribute);
-            var attributeInctanse = Activator.CreateInstance(attributeType);
-            var isValid = attributeType.GetMethod("IsValid");
-
-            if (!(bool)isValid.Invoke(attributeInctanse, new object[] { obj }))
+            foreach (var property in properties)
             {
-                return false;
-            }
+                var attributes = property
+                    .GetCustomAttributes()
+                    .Where(at => at is MyValidationAttribute)
+                    .Cast<MyValidationAttribute>()
+                    .ToArray();
 
-            //Range Validation!
-            attributeType = typeof(MyRangeAttribute);
-            var method = classType.GetMethod("Age");
-            var attribute = (MyRangeAttribute)Attribute.GetCustomAttribute(method, typeof(MyRangeAttribute));
-            attributeInctanse = Activator.CreateInstance(attributeType, new object[] { attribute.MinValue, attribute.MaxValue });
-            isValid = attributeType.GetMethod("IsValid");
-
-            if (!(bool)isValid.Invoke(attributeInctanse, new object[] { obj }))
-            {
-                return false;
+                foreach (var attribute in attributes)
+                {
+                    if (!attribute.IsValid(property.GetValue(obj)))
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;

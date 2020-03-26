@@ -8,36 +8,33 @@
     {
         public string Read(string args)
         {
-            var result = string.Empty;
-            var argsArr = args.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
-
-            var commandName = argsArr[0].ToLower();
-            var commandArgs = argsArr.Skip(1).ToArray();
-
-            if (commandName == "Exit".ToLower())
+            if (args == null)
             {
-                var type = typeof(ExitCommand);
-                var methodToInvoke = type.GetMethod("Execute");
-
-                var classInstance = Activator.CreateInstance(type);
-
-                methodToInvoke.Invoke(classInstance, new object[] { commandArgs });
+                throw new ArgumentNullException("Value cannot be null!");
             }
-            else if (commandName == "Hello".ToLower())
+
+            var value = args.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
+
+            var commandName = value[0];
+
+            if (commandName == "Hello".ToLower())
             {
-                var type = typeof(HelloCommand);
-                var methodToInvoke = type.GetMethod("Execute");
+                var commandArgs = value.Skip(1).ToArray();
 
-                var classInstance = Activator.CreateInstance(type);
-
-                result = methodToInvoke.Invoke(classInstance, new object[] { commandArgs }).ToString();
+                HelloCommand command = new HelloCommand();
+                return command.Execute(commandArgs);
+            }
+            else if (commandName == "Exit".ToLower())
+            {
+                ExitCommand command = new ExitCommand();
+                return command.Execute(null);
             }
             else
             {
-                throw new ArgumentException("Unvalid command!");
+                throw new InvalidOperationException("Invalid command!");
             }
 
-            return result;
+
         }
     }
 }

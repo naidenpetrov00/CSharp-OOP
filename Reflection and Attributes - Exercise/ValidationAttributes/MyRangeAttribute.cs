@@ -9,37 +9,37 @@
 
         public MyRangeAttribute(int minValue, int maxValue)
         {
+            this.Validation(minValue, maxValue);
+
             this.minValue = minValue;
             this.maxValue = maxValue;
         }
 
-        public int MinValue 
-        {
-            get => this.minValue;
-            private set => this.minValue = value;
-        }
-
-        public int MaxValue
-        {
-            get => this.maxValue;
-            private set => this.maxValue = value;
-        }
-
         public override bool IsValid(object obj)
         {
-            return this.Validation(obj);
+            if (obj is Int32)
+            {
+                var value = (int)obj;
+
+                if (value >= minValue && value <= maxValue)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            else
+            {
+                throw new InvalidOperationException("Cannot validate this type!");
+            }
         }
 
-        public bool Validation(object obj)
+        public void Validation(int min, int max)
         {
-            var deliveredClass = (Person)obj;
-
-            if (deliveredClass.Age >= this.minValue && deliveredClass.Age <= this.maxValue)
+            if (min > max)
             {
-                return true;
+                throw new ArgumentException("Invalid range!");
             }
-
-            return false;
         }
     }
 }

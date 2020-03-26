@@ -20,16 +20,9 @@
             {
                 var input = Console.ReadLine();
 
-                try
-                {
-                    var result = this.commandInterpreter.Read(input);
+                var result = this.commandInterpreter.Read(input);
 
-                    Console.WriteLine(result);
-                }
-                catch (ArgumentException ae)
-                {
-                    Console.WriteLine(ae.Message);
-                }
+                Console.WriteLine(result);
             }
         }
     }

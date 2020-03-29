@@ -1,17 +1,18 @@
 ﻿using NUnit.Framework;
-using System;
 
 [TestFixture]
 public class DummyTests
 {
     private Dummy dummy;
     private Axe weapon;
-    private int bonusAttackPointsToKill = 90;
+    private const int BonusAttackPointsToKill = 90;
+    private const int LeftedHealth = 90;
+    private const int GainedExperience = 100;
 
     [SetUp]
     public void TestInit()
     {
-       this.dummy = new Dummy(100, 100);
+        this.dummy = new Dummy(100, 100);
         this.weapon = new Axe(10, 10);
     }
 
@@ -22,14 +23,14 @@ public class DummyTests
         this.dummy.TakeAttack(this.weapon.AttackPoints);
 
         //Assert
-        Assert.That(this.dummy.Health, Is.EqualTo(90), "Dummy doesn't loose health when attacked!");
+        Assert.That(this.dummy.Health, Is.EqualTo(LeftedHealth), "Dummy doesn't loose health when attacked!");
     }
 
     [Test]
     public void DeadDummyCannotBeAttacked()
     {
         //Act
-        this.dummy.TakeAttack(this.weapon.AttackPoints + this.bonusAttackPointsToKill);
+        this.dummy.TakeAttack(this.weapon.AttackPoints + BonusAttackPointsToKill);
 
         //Assert
         Assert.That(() => dummy.TakeAttack(weapon.AttackPoints), Throws.InvalidOperationException.With.Message.EqualTo("Dummy is dead."));
@@ -39,10 +40,10 @@ public class DummyTests
     public void DeadDummyCanGiveXP()
     {
         //Act
-        this.dummy.TakeAttack(this.weapon.AttackPoints + this.bonusAttackPointsToKill);
+        this.dummy.TakeAttack(this.weapon.AttackPoints + BonusAttackPointsToKill);
 
         //Assert
-        Assert.That(this.dummy.GiveExperience(), Is.EqualTo(100));
+        Assert.That(this.dummy.GiveExperience(), Is.EqualTo(GainedExperience));
     }
 
     [Test]

@@ -1,0 +1,15 @@
+﻿namespace Skeleton.Tests
+{
+    using Skeleton;
+
+    public class FakeWeapon : IWeapon
+    {
+        public int AttackPoints => 10;
+
+        public int DurabilityPoints => 10;
+
+        public void Attack(ITarget target)
+        {
+        }
+    }
+}

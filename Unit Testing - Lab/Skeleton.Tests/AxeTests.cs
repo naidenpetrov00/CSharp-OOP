@@ -1,11 +1,11 @@
 using NUnit.Framework;
-using System;
+using Skeleton;
 
 [TestFixture]
 public class AxeTests
 {
-    private Axe weapon;
-    private Dummy dummy;
+    private IWeapon weapon;
+    private ITarget dummy;
 
     [SetUp]
     public void TestInit()

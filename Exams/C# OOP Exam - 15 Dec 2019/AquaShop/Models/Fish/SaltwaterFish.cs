@@ -12,7 +12,7 @@
 
         public override void Eat()
         {
-            this.Size += 2;
+            this.Size *= 2;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AquaShop
 {
     using AquaShop.Models.Fish.Contracts;
+    using AquaShop.Utilities.Messages;
     using System;
 
     public abstract class Fish : IFish
@@ -24,7 +25,7 @@
             {
                 if (String.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Fish name cannot be null or empty.");
+                    throw new ArgumentException(ExceptionMessages.InvalidFishName);
                 }
 
                 this.name = value;
@@ -38,7 +39,7 @@
             {
                 if (String.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Fish species cannot be null or empty.");
+                    throw new ArgumentException(ExceptionMessages.InvalidFishSpecies);
                 }
 
                 this.species = value;
@@ -58,7 +59,7 @@
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException("Fish price cannot be below or equal to 0.");
+                    throw new ArgumentException(ExceptionMessages.InvalidFishPrice);
                 }
 
                 this.price = value;

@@ -4,6 +4,7 @@
     using AquaShop.Models.Aquariums;
     using AquaShop.Models.Aquariums.Contracts;
     using AquaShop.Models.Decorations;
+    using AquaShop.Utilities.Messages;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,10 +12,14 @@
 
     public class Controller : IController
     {
-        private DecorationRepository decorations = new DecorationRepository();
-        private List<IAquarium> aquariums = new List<IAquarium>();
+        private DecorationRepository decorations;
+        private List<IAquarium> aquariums;
 
-        public Controller() { }
+        public Controller()
+        {
+            this.decorations = new DecorationRepository();
+            this.aquariums = new List<IAquarium>();
+        }
 
         public string AddAquarium(string aquariumType, string aquariumName)
         {
@@ -22,17 +27,17 @@
             {
                 this.aquariums.Add(new FreshwaterAquarium(aquariumName));
 
-                return $"Successfully added {aquariumType}.";
+                return string.Format(OutputMessages.SuccessfullyAdded, aquariumType);
             }
             else if (aquariumType == nameof(SaltwaterAquarium))
             {
                 this.aquariums.Add(new SaltwaterAquarium(aquariumName));
 
-                return $"Successfully added {aquariumType}.";
+                return string.Format(OutputMessages.SuccessfullyAdded, aquariumType);
             }
             else
             {
-                throw new InvalidOperationException("Invalid aquarium type.");
+                throw new InvalidOperationException(ExceptionMessages.InvalidAquariumType);
             }
         }
 
@@ -42,17 +47,17 @@
             {
                 this.decorations.Add(new Ornament());
 
-                return $"Successfully added {decorationType}.";
+                return string.Format(OutputMessages.SuccessfullyAdded, decorationType);
             }
             else if (decorationType == nameof(Plant))
             {
                 this.decorations.Add(new Plant());
 
-                return $"Successfully added {decorationType}.";
+                return string.Format(OutputMessages.SuccessfullyAdded, decorationType);
             }
             else
             {
-                throw new InvalidOperationException("Invalid decoration type.");
+                throw new InvalidOperationException(ExceptionMessages.InvalidDecorationType);
             }
         }
 
@@ -60,38 +65,26 @@
         {
             if (fishType != nameof(FreshwaterFish) && fishType != nameof(SaltwaterFish))
             {
-                throw new InvalidOperationException("Invalid fish type.");
+                throw new InvalidOperationException(ExceptionMessages.InvalidFishType);
             }
 
-           var aquariume = AquariumExcistingValidator(aquariumName);
+            var aquarium = AquariumExistingValidator(aquariumName);
 
-            if (nameof(aquariume).StartsWith("Fresh") && fishType.StartsWith("Fresh"))
+            if (aquarium.GetType().Name.StartsWith("Fresh") && fishType.StartsWith("Fresh"))
             {
-                foreach (var aquarium in this.aquariums)
-                {
-                    if (aquarium.Name == aquariumName)
-                    {
-                        aquarium.AddFish(new FreshwaterFish(fishName, fishSpecies, price));
-                    }
-                }
+                this.aquariums.Find(a => a.Name.Equals(aquariumName)).AddFish(new FreshwaterFish(fishName, fishSpecies, price));
 
-                return $"Successfully added {fishType} to {aquariumName}.";
+                return string.Format(OutputMessages.EntityAddedToAquarium, fishType, aquariumName);
             }
-            else if (nameof(aquariume).StartsWith("Salt") && fishType.StartsWith("Salt"))
+            else if (aquarium.GetType().Name.StartsWith("Salt") && fishType.StartsWith("Salt"))
             {
-                foreach (var aquarium in this.aquariums)
-                {
-                    if (aquarium.Name == aquariumName)
-                    {
-                        aquarium.AddFish(new SaltwaterFish(fishName, fishSpecies, price));
-                    }
-                }
+                this.aquariums.Find(a => a.Name.Equals(aquariumName)).AddFish(new SaltwaterFish(fishName, fishSpecies, price));
 
-                return $"Successfully added {fishType} to {aquariumName}.";
+                return string.Format(OutputMessages.EntityAddedToAquarium, fishType, aquariumName);
             }
             else
             {
-                return $"Water not suitable.";
+                return OutputMessages.UnsuitableWater;
             }
         }
 
@@ -99,7 +92,7 @@
         {
             decimal fullPrice = 0;
 
-            var aquariume = AquariumExcistingValidator(aquariumName);
+            var aquariume = AquariumExistingValidator(aquariumName);
 
             foreach (var fish in aquariume.Fish)
             {
@@ -110,23 +103,22 @@
                 fullPrice += decoration.Price;
             }
 
-            return $"The value of Aquarium {aquariumName} is {fullPrice : F2}.";
+            return string.Format(OutputMessages.AquariumValue, aquariumName, fullPrice);
         }
 
         public string FeedFish(string aquariumName)
         {
             var fedCount = 0;
 
-            foreach (var aquarium in this.aquariums)
+            var aquarium = AquariumExistingValidator(aquariumName);
+
+            foreach (var fish in aquarium.Fish)
             {
-                foreach (var fish in aquarium.Fish)
-                {
-                    fish.Eat();
-                    fedCount++;
-                }
+                fish.Eat();
+                fedCount++;
             }
 
-            return $"Fish fed: {fedCount}";
+            return string.Format(OutputMessages.FishFed, fedCount);
         }
 
         public string InsertDecoration(string aquariumName, string decorationType)
@@ -135,22 +127,16 @@
 
             if (decoration == null)
             {
-                throw new InvalidOperationException("There isn't a decoration of type {decorationType}.");
+                throw new InvalidOperationException(string.Format(ExceptionMessages.InexistentDecoration, decorationType));
             }
 
-            var aquariume = AquariumExcistingValidator(aquariumName);
+            var aquariume = AquariumExistingValidator(aquariumName);
 
-            foreach (var aquarium in this.aquariums)
-            {
-                if (aquarium.Name == aquariumName)
-                {
-                    aquarium.AddDecoration(decoration);
-                }
-            }
+            this.aquariums.Find(a => a.Name.Equals(aquariumName)).AddDecoration(decoration);
 
             this.decorations.Remove(decoration);
 
-            return $"Successfully added {decorationType} to {aquariumName}.";
+            return string.Format(OutputMessages.EntityAddedToAquarium, decorationType, aquariumName);
         }
 
         public string Report()
@@ -165,13 +151,13 @@
             return report.ToString().Trim();
         }
 
-        public IAquarium AquariumExcistingValidator(string aquariumName)
+        private IAquarium AquariumExistingValidator(string aquariumName)
         {
-            var aquarium = (IAquarium)this.aquariums.Where(a => a.Name.Equals(aquariumName));
+            var aquarium = this.aquariums.Find(a => a.Name.Equals(aquariumName));
 
             if (aquarium == null)
             {
-                throw new ArgumentException($"{aquariumName} does not stand in aquariums");
+                throw new ArgumentException($"Aquarium: {aquariumName} does not exist!");
             }
 
             return aquarium;

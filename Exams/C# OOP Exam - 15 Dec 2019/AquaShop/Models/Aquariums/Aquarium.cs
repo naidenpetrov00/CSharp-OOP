@@ -3,6 +3,7 @@
     using AquaShop.Models.Aquariums.Contracts;
     using AquaShop.Models.Decorations.Contracts;
     using AquaShop.Models.Fish.Contracts;
+    using AquaShop.Utilities.Messages;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,13 +13,15 @@
     {
         private string name;
         private int capacity;
-        private ICollection<IDecoration> decorations;
-        private ICollection<IFish> fishes;
+        private List<IDecoration> decorations;
+        private List<IFish> fishes;
 
         public Aquarium(string name, int capacity)
         {
             this.Name = name;
             this.Capacity = capacity;
+            this.decorations = new List<IDecoration>();
+            this.fishes = new List<IFish>();
         }
 
         public string Name
@@ -28,7 +31,7 @@
             {
                 if (String.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentException("Aquarium name cannot be null or empty.");
+                    throw new ArgumentException(ExceptionMessages.InvalidAquariumName);
                 }
 
                 this.name = value;
@@ -57,9 +60,9 @@
 
         public void AddFish(IFish fish)
         {
-            if (fishes.Count == this.Capacity)
+            if (this.fishes.Count == this.Capacity)
             {
-                throw new InvalidOperationException("Not enough capacity.");
+                throw new InvalidOperationException(ExceptionMessages.NotEnoughCapacity);
             }
             else if (fishes.Count < this.Capacity)
             {
@@ -79,7 +82,7 @@
         {
             var info = new StringBuilder();
 
-            info.AppendLine($"{this.Name} ({this.GetType().Name})");
+            info.AppendLine($"{this.Name} ({this.GetType().Name}):");
 
             if (this.Fish.Count == 0)
             {
@@ -87,7 +90,7 @@
             }
             else
             {
-                info.AppendLine($"Fish: {string.Join(" ", this.Fish.Select(f => f.Name))}");
+                info.AppendLine($"Fish: {string.Join(", ", this.Fish.Select(f => f.Name))}");
             }
 
             info.AppendLine($"Decorations: {this.decorations.Count}");

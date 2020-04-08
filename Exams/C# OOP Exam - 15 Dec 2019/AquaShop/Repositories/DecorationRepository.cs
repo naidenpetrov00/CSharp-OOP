@@ -8,23 +8,28 @@
 
     public class DecorationRepository : IRepository<IDecoration>
     {
-        private ICollection<IDecoration> models;
+        private List<IDecoration> models;
 
-        public IReadOnlyCollection<IDecoration> Models => this.Models;
+        public DecorationRepository()
+        {
+            this.models = new List<IDecoration>();
+        }
+
+        public IReadOnlyCollection<IDecoration> Models => this.models;
 
         public void Add(IDecoration model)
         {
-            models.Add(model);
+            this.models.Add(model);
         }
 
         public IDecoration FindByType(string type)
         {
-            return this.Models.First(m => m.GetType().Name.Equals(type));
+            return this.models.Find(m => m.GetType().Name.Equals(type));
         }
 
         public bool Remove(IDecoration model)
         {
-            return models.Remove(model);
+            return this.models.Remove(model);
         }
     }
 }

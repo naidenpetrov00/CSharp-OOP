@@ -50,7 +50,7 @@
             }
         }
 
-        public IReadOnlyCollection<IRider> Riders { get => this.riders; }
+        public IReadOnlyCollection<IRider> Riders => this.riders.OrderByDescending(r => r.Motorcycle.CalculateRacePoints(Laps)).ToList();
 
         public void AddRider(IRider rider)
         {

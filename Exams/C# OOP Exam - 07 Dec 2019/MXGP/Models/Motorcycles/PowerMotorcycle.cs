@@ -12,6 +12,7 @@
         {
             this.MinimumHorsePower = minimalHorsePower;
             this.MaximumHorsePower = maximalHorsePower;
+            this.HorsePower = horsePower;
         }
     }
 }

@@ -1,38 +1,37 @@
 ﻿namespace MXGP.Repositories
 {
+    using MXGP.Models.Motorcycles.Contracts;
     using MXGP.Repositories.Contracts;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    public class MotorcycleRepository : IRepository<Motorcycle>
+    public class MotorcycleRepository : IRepository<IMotorcycle>
     {
 
-        private List<Motorcycle> models;
+        private List<IMotorcycle> models;
 
         public MotorcycleRepository()
         {
-            this.models = new List<Motorcycle>();
+            this.models = new List<IMotorcycle>();
         }
 
-        public IReadOnlyCollection<Motorcycle> Models => this.models;
+        public IReadOnlyCollection<IMotorcycle> Models => this.models;
 
-        public void Add(Motorcycle model)
+        public void Add(IMotorcycle model)
         {
             this.models.Add(model);
         }
 
-        public IReadOnlyCollection<Motorcycle> GetAll()
+        public IReadOnlyCollection<IMotorcycle> GetAll()
         {
             return this.Models;
         }
 
-        public Motorcycle GetByName(string name)
+        public IMotorcycle GetByName(string name)
         {
             return this.models.Find(m => m.Model.Equals(name));
         }
 
-        public bool Remove(Motorcycle model)
+        public bool Remove(IMotorcycle model)
         {
             return this.models.Remove(model);
         }

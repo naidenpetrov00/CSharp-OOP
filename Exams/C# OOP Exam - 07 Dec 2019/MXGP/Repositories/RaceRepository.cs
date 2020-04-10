@@ -1,38 +1,37 @@
 ﻿namespace MXGP.Repositories
 {
+    using MXGP.Models.Races.Contracts;
     using MXGP.Repositories.Contracts;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    public class RaceRepository : IRepository<Race>
+    public class RaceRepository : IRepository<IRace>
     {
 
-        private List<Race> models;
+        private List<IRace> models;
 
         public RaceRepository()
         {
-            this.models = new List<Race>();
+            this.models = new List<IRace>();
         }
 
-        public IReadOnlyCollection<Race> Models => this.models;
+        public IReadOnlyCollection<IRace> Models => this.models;
 
-        public void Add(Race model)
+        public void Add(IRace model)
         {
             this.models.Add(model);
         }
 
-        public IReadOnlyCollection<Race> GetAll()
+        public IReadOnlyCollection<IRace> GetAll()
         {
             return this.Models;
         }
 
-        public Race GetByName(string name)
+        public IRace GetByName(string name)
         {
             return this.models.Find(m => m.Name.Equals(name));
         }
 
-        public bool Remove(Race model)
+        public bool Remove(IRace model)
         {
             return this.models.Remove(model);
         }

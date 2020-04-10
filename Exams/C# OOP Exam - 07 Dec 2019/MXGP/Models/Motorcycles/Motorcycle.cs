@@ -3,6 +3,7 @@
     using MXGP.Models.Motorcycles.Contracts;
     using MXGP.Utilities.Messages;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Text;
 
@@ -15,7 +16,7 @@
         public Motorcycle(string model, int horsePower, double cubicCentimeters)
         {
             this.Model = model;
-            this.CubicCentimeters = cubicCentimeters;
+            this.cubicCentimeters = cubicCentimeters;
         }
 
         public int MinimumHorsePower { get; protected set; }
@@ -53,12 +54,11 @@
         public double CubicCentimeters
         {
             get => this.cubicCentimeters;
-            private set { this.cubicCentimeters = value; }
         }
 
         public double CalculateRacePoints(int laps)
         {
-            var result = this.CubicCentimeters / (this.HorsePower * laps);
+            var result = this.CubicCentimeters / this.HorsePower * laps;
 
             return result;
         }

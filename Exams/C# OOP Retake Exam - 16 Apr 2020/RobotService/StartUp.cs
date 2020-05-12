@@ -2,6 +2,7 @@
 {
     using RobotService.Core;
     using RobotService.Core.Contracts;
+    using RobotService.Models.Robots;
 
     public class StartUp
     {

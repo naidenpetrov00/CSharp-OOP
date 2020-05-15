@@ -1,7 +1,7 @@
 ﻿namespace RobotService.IO
 {
-    using System;
     using RobotService.IO.Contracts;
+    using System;
 
     public class Writer : IWriter
     {

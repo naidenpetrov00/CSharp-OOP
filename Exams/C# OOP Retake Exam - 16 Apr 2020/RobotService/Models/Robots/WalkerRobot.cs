@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RobotService.Models.Robots
+﻿namespace RobotService.Models.Robots
 {
     class WalkerRobot : Robot
     {

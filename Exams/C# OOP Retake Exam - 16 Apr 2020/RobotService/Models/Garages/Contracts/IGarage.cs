@@ -1,8 +1,7 @@
 ﻿namespace RobotService.Models.Garages.Contracts
 {
-    using System.Collections.Generic;
-
     using RobotService.Models.Robots.Contracts;
+    using System.Collections.Generic;
 
     public interface IGarage
     {

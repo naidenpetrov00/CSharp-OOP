@@ -1,10 +1,9 @@
 ﻿namespace RobotService.Core
 {
-    using System;
-
+    using RobotService.Core.Contracts;
     using RobotService.IO;
     using RobotService.IO.Contracts;
-    using RobotService.Core.Contracts;
+    using System;
 
     public class Engine : IEngine
     {

@@ -1,10 +1,8 @@
 ﻿namespace RobotService
 {
     using RobotService.Models.Procedures.Contracts;
-    using RobotService.Models.Robots;
     using RobotService.Models.Robots.Contracts;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
 
     public abstract class Procedure : IProcedure
@@ -16,7 +14,7 @@
             this.robots = new List<IRobot>();
         }
 
-        public IReadOnlyCollection<IRobot> Robots => robots;
+        protected List<IRobot> Robots => robots;
 
         public abstract void DoService(IRobot robot, int procedureTime);
 
@@ -38,6 +36,11 @@
             }
 
             return sb.ToString().Trim();
+        }
+
+        protected static void ProcedureTimeRemover(IRobot robot, int procedureTime)
+        {
+            robot.ProcedureTime -= procedureTime;
         }
     }
 }

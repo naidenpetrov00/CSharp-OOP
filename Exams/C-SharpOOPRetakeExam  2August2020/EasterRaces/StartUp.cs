@@ -2,13 +2,14 @@
 using EasterRaces.IO;
 using EasterRaces.IO.Contracts;
 using EasterRaces.Core.Entities;
+using EasterRaces.Models.Cars.Entities;
 
 namespace EasterRaces
 {
     public class StartUp
     {
         public static void Main()
-        {
+        {   
             IChampionshipController controller = null; //new ChampionshipController();
             IReader reader = new ConsoleReader();
             IWriter writer = new ConsoleWriter();

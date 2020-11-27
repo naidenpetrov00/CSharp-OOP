@@ -12,7 +12,7 @@
 
         private int horsePower;
 
-        public MuscleCar(string model, int horsePower, double cubicCentimeters)
+        public MuscleCar(string model, int horsePower)
             : base(model, horsePower, cubicCentimeters, MinHorsePower, MaxHorsePower) 
         {
             this.HorsePower = horsePower;
@@ -32,6 +32,5 @@
             }
         }
 
-        public override double CubicCentimeters => cubicCentimeters;
     }
 }

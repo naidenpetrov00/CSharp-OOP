@@ -22,24 +22,27 @@
         public string Name
         {
             get { return this.name; }
-            private set 
+            private set
             {
                 if (string.IsNullOrEmpty(value) || value.Length < 5)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.InvalidName, value, 5));
                 }
+
+                this.name = value;
             }
         }
 
         public int Laps
         {
             get { return this.laps; }
-            set
+            private set
             {
                 if (value < 1)
                 {
                     throw new ArgumentException(string.Format(ExceptionMessages.InvalidNumberOfLaps, 1));
                 }
+                this.laps = value;
             }
         }
 

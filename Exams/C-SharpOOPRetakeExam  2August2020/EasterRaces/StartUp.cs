@@ -3,14 +3,16 @@ using EasterRaces.IO;
 using EasterRaces.IO.Contracts;
 using EasterRaces.Core.Entities;
 using EasterRaces.Models.Cars.Entities;
+using EasterRaces.Repositories.Entities.RepositoryEntities;
+using System.Linq;
 
 namespace EasterRaces
 {
     public class StartUp
     {
         public static void Main()
-        {   
-            IChampionshipController controller = null; //new ChampionshipController();
+        {
+            IChampionshipController controller = null;//new ChampionshipController();
             IReader reader = new ConsoleReader();
             IWriter writer = new ConsoleWriter();
 
@@ -18,13 +20,4 @@ namespace EasterRaces
             enigne.Run();
         }
     }
-
-    //public class StartUp
-    //{
-    //    public static void Main()
-    //    {
-    //        var tets = new string[] { "a", "b" };
-    //        System.Console.WriteLine(tets.Length);
-    //    }
-    //}
 }

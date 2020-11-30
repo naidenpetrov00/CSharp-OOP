@@ -28,7 +28,6 @@
             }
         }
 
-        public abstract int HorsePower { get; protected set; }
 
         public double CubicCentimeters
         {
@@ -38,6 +37,8 @@
                 this.cubicCentimeters = value;
             }
         }
+
+        public abstract int HorsePower { get; protected set; }
 
         public double CalculateRacePoints(int laps)
         {

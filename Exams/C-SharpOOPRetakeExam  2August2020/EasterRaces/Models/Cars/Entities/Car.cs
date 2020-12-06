@@ -21,7 +21,7 @@
             {
                 if (String.IsNullOrWhiteSpace(value) || value.Length < 4)
                 {
-                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidModel, this.model, 4));
+                    throw new ArgumentException(string.Format(ExceptionMessages.InvalidModel, value, 4));
                 }
 
                 this.model = value;

@@ -32,32 +32,30 @@
 
         public string AddCarToDriver(string driverName, string carModel)
         {
-            if (!this.DriverExistence)
+            if (!this.DriverExistence(driverName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.DriverNotFound, driverName));
             }
-            else if (!this.CarExistence)
+            else if (!this.CarExistence(carModel))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.CarNotFound, carModel));
             }
-            else
-            {
-                var driver = this.DriverRep.GetByName(driverName);
-                var car = this.CarRep.GetByName(carModel);
 
-                driver.AddCar(car);
+            var driver = this.DriverRep.GetByName(driverName);
+            var car = this.CarRep.GetByName(carModel);
 
-                return string.Format(OutputMessages.CarAdded, driverName, carModel);
-            }
+            driver.AddCar(car);
+
+            return string.Format(OutputMessages.CarAdded, driverName, carModel);
         }
 
         public string AddDriverToRace(string raceName, string driverName)
         {
-            if (!this.RaceExistence)
+            if (!this.RaceExistence(raceName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceNotFound, raceName));
             }
-            else if (!this.DriverExistence)
+            else if (!this.DriverExistence(driverName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.DriverNotFound, driverName));
             }
@@ -76,18 +74,18 @@
         {
             if (!this.CarExistence(model))
             {
-                if (type == typeof(MuscleCar).Name)
+                if (type == "Muscle")
                 {
                     var muscleCar = new MuscleCar(model, horsePower);
                     this.carRep.Add(muscleCar);
                 }
-                else if (type == typeof(SportsCar).Name)
+                else if (type == "Sports")
                 {
                     var sportsCar = new SportsCar(model, horsePower);
                     this.carRep.Add(sportsCar);
                 }
 
-                return string.Format(OutputMessages.CarCreated, type, model);
+                return string.Format(OutputMessages.CarCreated, type + "Car", model);
             }
 
             throw new ArgumentException(string.Format(ExceptionMessages.CarExists, model));
@@ -121,7 +119,7 @@
 
         public string StartRace(string raceName)
         {
-            if (!this.RaceExistence)
+            if (!this.RaceExistence(raceName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceNotFound, raceName));
             }
@@ -130,19 +128,19 @@
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceInvalid, raceName, 3));
             }
 
+            var race = this.RaceRep.GetByName(raceName);
             var raceWiners = this.DriverRep.GetAll().ToList();
-            raceWiners.OrderByDescending(n => n.Car.CalculateRacePoints);
-            raceWiners.Take(3);
+            raceWiners.OrderByDescending(n => n.Car.CalculateRacePoints(race.Laps)).Take(3);
 
-            var sb = new StringBuilder;
+            var sb = new StringBuilder();
 
-            sb.AppendLine(string.Format(OutputMessages.DriverFirstPosition, raceWiners[0], raceName));
-            sb.AppendLine(string.Format(OutputMessages.DriverSecondPosition, raceWiners[1], raceName));
-            sb.Append(string.Format(OutputMessages.DriverThirdPosition, raceWiners[2], raceName));
+            sb.AppendLine(string.Format(OutputMessages.DriverFirstPosition, raceWiners[0].Name, raceName));
+            sb.AppendLine(string.Format(OutputMessages.DriverSecondPosition, raceWiners[1].Name, raceName));
+            sb.Append(string.Format(OutputMessages.DriverThirdPosition, raceWiners[2].Name, raceName));
 
-            this.raceRep.Remove(raceName);
+            this.raceRep.Remove(race);
 
-            return sb.ToString().Trim;
+            return sb.ToString().Trim();
         }
 
         public bool DriverExistence(string name)
@@ -165,7 +163,7 @@
         }
         public bool CarExistence(string model)
         {
-            if (this.DriverRep.GetByName(model) is null)
+            if (this.CarRep.GetByName(model) is null)
             {
                 return false;
             }

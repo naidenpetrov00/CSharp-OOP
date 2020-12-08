@@ -118,17 +118,17 @@
         public string StartRace(string raceName)
         {
             var race = this.RaceRep.GetByName(raceName);
-            if (!this.RaceExistence(raceName))
+            if (race == null)
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceNotFound, raceName));
             }
-            else if (race.Drivers.Count < 3)
+            if (race.Drivers.Count < 3)
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceInvalid, raceName, 3));
             }
 
             var raceWiners = race.Drivers.Take(3).ToList();
-
+I
             var sb = new StringBuilder();
 
             sb.AppendLine(string.Format(OutputMessages.DriverFirstPosition, raceWiners[0].Name, raceName));

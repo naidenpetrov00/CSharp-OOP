@@ -4,6 +4,7 @@
     using EasterRaces.Utilities.Messages;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     public class Race : IRace
@@ -46,7 +47,7 @@
             }
         }
 
-        public IReadOnlyCollection<IDriver> Drivers => this.drivers;
+        public IReadOnlyCollection<IDriver> Drivers => this.drivers.OrderByDescending(d => d.Car.CalculateRacePoints(this.Laps)).ToList();
 
         public void AddDriver(IDriver driver)
         {

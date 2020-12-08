@@ -6,10 +6,8 @@
     using EasterRaces.Models.Races.Contracts;
     using EasterRaces.Repositories.Contracts;
     using EasterRaces.Repositories.Entities;
-    using EasterRaces.Repositories.Entities.RepositoryEntities;
     using EasterRaces.Utilities.Messages;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
@@ -119,18 +117,17 @@
 
         public string StartRace(string raceName)
         {
+            var race = this.RaceRep.GetByName(raceName);
             if (!this.RaceExistence(raceName))
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceNotFound, raceName));
             }
-            else if (this.DriverRep.GetAll().Count < 3)
+            else if (race.Drivers.Count < 3)
             {
                 throw new InvalidOperationException(string.Format(ExceptionMessages.RaceInvalid, raceName, 3));
             }
 
-            var race = this.RaceRep.GetByName(raceName);
-            var raceWiners = this.DriverRep.GetAll().ToList();
-            raceWiners.OrderByDescending(n => n.Car.CalculateRacePoints(race.Laps)).Take(3);
+            var raceWiners = race.Drivers.Take(3).ToList();
 
             var sb = new StringBuilder();
 

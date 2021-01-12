@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using TheRace;
 
 namespace TheRace.Tests
@@ -34,6 +35,36 @@ namespace TheRace.Tests
         public void ConstructorShouldInstanciateCorrectly()
         {
             Assert.IsNotNull(this.race);
+        }
+
+        [Test]
+        public void AddDriverMethodShouldAddDriverCorrectly()
+        {
+            this.race.AddDriver(this.firstDriver);
+
+            Assert.IsNotNull(this.race, "The driver was not added!");
+        }
+
+        [Test]
+        public void AddMethodShouldReturnCorrectly()
+        {
+            var message = this.race.AddDriver(this.firstDriver);
+
+            Assert.That(message, Is.EqualTo($"Driver {this.firstDriver.Name} added in race."));
+        }
+
+        [Test]
+        public void AddDriverMethodShouldntAddNull()
+        {
+            Assert.Throws<InvalidOperationException>(() => this.race.AddDriver(null), "Method is adding null value driver!");    
+        }    
+
+        [Test]
+        public void AddMethodCannotAddExsistingDriver()
+        {
+            this.race.AddDriver(this.firstDriver);
+
+            Assert.Throws<InvalidOperationException>(() => this.race.AddDriver(this.firstDriver), "Method is adding exsisting driver!");
         }
 
         [Test]

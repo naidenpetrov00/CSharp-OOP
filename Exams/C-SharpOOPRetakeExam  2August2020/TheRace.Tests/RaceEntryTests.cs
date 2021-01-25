@@ -77,6 +77,24 @@ namespace TheRace.Tests
 
             Assert.That(count, Is.EqualTo(2), "Counter is not retrning correct count of object!");
         }
+
+        [Test]
+        public void RacePointsCalculatorShouldCalculateCorrectly()
+        {
+            this.race.AddDriver(this.firstDriver);
+            this.race.AddDriver(this.secondDriver);
+            var result = (this.firstDriver.Car.HorsePower * this.secondDriver.Car.HorsePower) / this.race.Counter;
+
+            Assert.That(this.race.CalculateAverageHorsePower, Is.EqualTo(result));
+        }
+
+        [Test]
+        public void RaceCannotStartWithParticipantsLessThenMinimum()
+        {
+            this.race.AddDriver(this.firstDriver);
+
+            Assert.Throws<InvalidOperationException>(() => this.race.CalculateAverageHorsePower());
+        }
     }
 }
 /*You will receive a skeleton with RaceEntry, UnitCar and UnitDriver classes inside. The class will 

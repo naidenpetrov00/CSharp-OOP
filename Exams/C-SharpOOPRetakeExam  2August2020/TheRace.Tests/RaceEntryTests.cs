@@ -83,7 +83,7 @@ namespace TheRace.Tests
         {
             this.race.AddDriver(this.firstDriver);
             this.race.AddDriver(this.secondDriver);
-            var result = (this.firstDriver.Car.HorsePower * this.secondDriver.Car.HorsePower) / this.race.Counter;
+            var result = (this.firstDriver.Car.HorsePower + this.secondDriver.Car.HorsePower) / this.race.Counter;
 
             Assert.That(this.race.CalculateAverageHorsePower, Is.EqualTo(result));
         }

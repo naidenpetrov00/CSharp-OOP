@@ -5,6 +5,9 @@
 
     public abstract class Car : ICar
     {
+        private const string TunedCar = "TunedCar";
+        private const string SuperCar = "SuperCar";
+
         private string make;
         private string model;
         private string vin;
@@ -98,7 +101,14 @@
 
         public void Drive()
         {
-            throw new System.NotImplementedException();
+            this.FuelAvailable--;
+
+            if (this.Model.GetType().Equals(TunedCar))
+            {
+                var hpAfterWear = Math.Round(this.HorsePower / 1.03);
+
+                this.HorsePower = (int)hpAfterWear;
+            }
         }
     }
 }

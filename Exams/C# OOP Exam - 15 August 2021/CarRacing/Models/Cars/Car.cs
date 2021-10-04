@@ -15,6 +15,9 @@
         private double fuelAvailable;
         private double fuelConsumptionPerRace;
 
+        public Car(string make, string model, string VIN, int horsePower, double fuelAvailable, double fuelConsuption) { }
+
+
         public string Make
         {
             get { return this.make; }
@@ -101,7 +104,7 @@
 
         public void Drive()
         {
-            this.FuelAvailable--;
+            this.FuelAvailable -= this.fuelConsumptionPerRace;
 
             if (this.Model.GetType().Equals(TunedCar))
             {

@@ -7,10 +7,10 @@
 
     public class StreetRacer : Racer
     {
-        private const int DrivingExperience = 10;
-        private const string RacingBehavior = "aggressive";
+        private const int StreetDrivingExperience = 10;
+        private const string StreetRacingBehavior = "aggressive";
 
         public StreetRacer(string username, ICar car)
-            : base(username, RacingBehavior, DrivingExperience, car) { }
+            : base(username, StreetRacingBehavior, StreetDrivingExperience, car) { }
     }
 }

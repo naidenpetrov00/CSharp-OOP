@@ -9,7 +9,7 @@
         private const double AvailableFuel = 80;
         private const double FuelConsumtion = 10;
 
-        public SuperCar(string model, string make, string VIN, int horsePower)
-            : base(model, make, VIN, horsePower, AvailableFuel, FuelConsumtion) { }
+        public SuperCar(string make, string model, string VIN, int horsePower)
+            : base(make, model, VIN, horsePower, AvailableFuel, FuelConsumtion) { }
     }
 }

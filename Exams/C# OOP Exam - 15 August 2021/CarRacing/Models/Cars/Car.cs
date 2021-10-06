@@ -69,6 +69,8 @@
                 {
                     throw new ArgumentException("Horse power cannot be below 0.");
                 }
+
+                this.horsePower = value;
             }
         }
 

@@ -17,9 +17,16 @@
         private double chanceOfWinningRacerOne;
         private double chanceOfWinningRacerTwo;
 
-        private static void Winner(double pointsRacerOne, double pointsRacerTwo)
+        private static string Winner(IRacer racerOne, IRacer racerTwo, double pointsRacerOne, double pointsRacerTwo)
         {
-
+            if (pointsRacerOne > pointsRacerTwo)
+            {
+                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerOne.Username);
+            }
+            else
+            {
+                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerTwo.Username);
+            }
         }
 
         private static string WalkoverWinner(string winner, string loser)
@@ -60,7 +67,7 @@
 
             chanceOfWinningRacerTwo = racerTwo.Car.HorsePower * racerTwo.DrivingExperience * RacingBehaviorMultiplier(racerTwo.RacingBehavior);
 
-            return this.Winner
+            return Winner(racerOne, racerTwo, chanceOfWinningRacerOne, chanceOfWinningRacerTwo);
         }
 
     }

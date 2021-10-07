@@ -63,11 +63,33 @@
                 return WalkoverWinner(racerOne.Username, racerTwo.Username);
             }
 
-            chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * RacingBehaviorMultiplier(racerOne.RacingBehavior);
+            if (racerOne.RacingBehavior == StrictBehavior)
+            {
+                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.2;
+            }
+            else if (racerOne.RacingBehavior == AggressiveBehavior)
+            {
 
-            chanceOfWinningRacerTwo = racerTwo.Car.HorsePower * racerTwo.DrivingExperience * RacingBehaviorMultiplier(racerTwo.RacingBehavior);
+                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.1;
+            }
+            if (racerTwo.RacingBehavior == StrictBehavior)
+            {
+                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.2;
+            }
+            else if (racerTwo.RacingBehavior == AggressiveBehavior)
+            {
 
-            return Winner(racerOne, racerTwo, chanceOfWinningRacerOne, chanceOfWinningRacerTwo);
+                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.1;
+            }
+
+            if (chanceOfWinningRacerOne > chanceOfWinningRacerTwo)
+            {
+                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerOne.Username);
+            }
+            else
+            {
+                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerTwo.Username);
+            }
         }
 
     }

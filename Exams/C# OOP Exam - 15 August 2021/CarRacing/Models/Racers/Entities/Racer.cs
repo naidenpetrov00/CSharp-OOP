@@ -3,8 +3,6 @@
     using CarRacing.Models.Cars.Contracts;
     using CarRacing.Models.Racers.Contracts;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     public abstract class Racer : IRacer
     {
@@ -18,13 +16,19 @@
         private int drivingExperience;
         private Car car;
 
-        public Racer(string username, string racingBehavior, int drivingExperience, ICar car) { }
+        public Racer(string username, string racingBehavior, int drivingExperience, ICar car)
+        {
+            this.Username = username;
+            this.RacingBehavior = racingBehavior;
+            this.DrivingExperience = drivingExperience;
+            this.Car = car;
+        }
 
 
         public string Username
         {
             get { return this.username; }
-            protected set
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -38,7 +42,7 @@
         public string RacingBehavior
         {
             get { return this.racingBehavior; }
-            protected set
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -52,7 +56,7 @@
         public int DrivingExperience
         {
             get { return this.drivingExperience; }
-            protected set
+            private set
             {
                 if (value < 0 || value > 100)
                 {
@@ -66,7 +70,7 @@
         public ICar Car
         {
             get { return this.car; }
-            protected set
+            private set
             {
                 if (value is null)
                 {

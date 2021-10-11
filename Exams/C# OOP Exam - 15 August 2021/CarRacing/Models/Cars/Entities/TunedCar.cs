@@ -1,9 +1,5 @@
 ﻿namespace CarRacing.Models.Cars
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     public class TunedCar : Car
     {
         private const double AvailableFuel = 65;

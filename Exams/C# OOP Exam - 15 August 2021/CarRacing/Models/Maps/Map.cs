@@ -2,9 +2,6 @@
 {
     using CarRacing.Models.Maps.Contracts;
     using CarRacing.Models.Racers.Contracts;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     class Map : IMap
     {
@@ -17,35 +14,9 @@
         private double chanceOfWinningRacerOne;
         private double chanceOfWinningRacerTwo;
 
-        private static string Winner(IRacer racerOne, IRacer racerTwo, double pointsRacerOne, double pointsRacerTwo)
-        {
-            if (pointsRacerOne > pointsRacerTwo)
-            {
-                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerOne.Username);
-            }
-            else
-            {
-                return string.Format($"{0} has just raced against {1}! {2} is the winner!", racerOne.Username, racerTwo.Username, racerTwo.Username);
-            }
-        }
-
         private static string WalkoverWinner(string winner, string loser)
         {
             return string.Format($"{0} wins the race! {1} was not available to race!", winner, loser);
-        }
-
-        private static double RacingBehaviorMultiplier(string racingBehavior)
-        {
-            if (racingBehavior == StrictBehavior)
-            {
-                return StrictBehaviorMultiplier;
-            }
-            else if (racingBehavior == AggressiveBehavior)
-            {
-                return AggressiveBehaviorMultiplier;
-            }
-
-            return 1;
         }
 
         public string StartRace(IRacer racerOne, IRacer racerTwo)
@@ -74,12 +45,12 @@
             }
             if (racerTwo.RacingBehavior == StrictBehavior)
             {
-                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.2;
+                chanceOfWinningRacerTwo = racerTwo.Car.HorsePower * racerTwo.DrivingExperience * 1.2;
             }
             else if (racerTwo.RacingBehavior == AggressiveBehavior)
             {
 
-                chanceOfWinningRacerOne = racerOne.Car.HorsePower * racerOne.DrivingExperience * 1.1;
+                chanceOfWinningRacerTwo = racerTwo.Car.HorsePower * racerTwo.DrivingExperience * 1.1;
             }
 
             if (chanceOfWinningRacerOne > chanceOfWinningRacerTwo)

@@ -1,6 +1,5 @@
 ﻿namespace CarRacing
 {
-    using CarRacing.Models.Cars;
     using CarRacing.Models.Cars.Contracts;
     using CarRacing.Repositories.Contracts;
     using System;

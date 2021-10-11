@@ -2,10 +2,10 @@
 // ReSharper disable FunctionNeverReturns
 namespace CarRacing.Core
 {
-    using System;
     using Contracts;
     using IO;
     using IO.Contracts;
+    using System;
 
     public class Engine : IEngine
     {

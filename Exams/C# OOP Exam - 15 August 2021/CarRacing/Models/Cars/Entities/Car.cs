@@ -6,23 +6,29 @@
     public abstract class Car : ICar
     {
         private const string TunedCar = "TunedCar";
-        private const string SuperCar = "SuperCar";
 
-            
         private string make;
         private string model;
         private string vin;
-        private int horsePower; 
+        private int horsePower;
         private double fuelAvailable;
         private double fuelConsumptionPerRace;
 
-        public Car(string make, string model, string VIN, int horsePower, double fuelAvailable, double fuelConsuption) { }
+        public Car(string make, string model, string VIN, int horsePower, double fuelAvailable, double fuelConsumptionPerRace)
+        {
+            this.Make = make;
+            this.Model = model;
+            this.VIN = VIN;
+            this.HorsePower = horsePower;
+            this.FuelAvailable = fuelAvailable;
+            this.FuelConsumptionPerRace = fuelConsumptionPerRace;
+        }
 
 
         public string Make
         {
             get { return this.make; }
-            protected set
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -36,7 +42,7 @@
         public string Model
         {
             get { return this.model; }
-            protected set
+            private set
             {
                 if (string.IsNullOrWhiteSpace(value))
                 {
@@ -50,7 +56,7 @@
         public string VIN
         {
             get { return this.vin; }
-            protected set
+            private set
             {
                 if (value.Length != 17)
                 {
@@ -64,7 +70,7 @@
         public int HorsePower
         {
             get { return this.horsePower; }
-            protected set
+            private set
             {
                 if (value < 0)
                 {
@@ -78,7 +84,7 @@
         public double FuelAvailable
         {
             get { return this.fuelAvailable; }
-            protected set
+            private set
             {
                 if (value < 0)
                 {
@@ -94,7 +100,7 @@
         public double FuelConsumptionPerRace
         {
             get { return this.fuelConsumptionPerRace; }
-            protected set
+            private set
             {
                 if (value < 0)
                 {

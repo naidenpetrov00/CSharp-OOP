@@ -1,7 +1,7 @@
 ﻿namespace CarRacing.IO
 {
-    using System;
     using Contracts;
+    using System;
 
     public class Writer : IWriter
     {
